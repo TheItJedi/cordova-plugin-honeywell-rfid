@@ -1,4 +1,4 @@
-# dff-cordova-plugin-honeywell
+# cordova-plugin-honeywell-rfid
 Cordova plugin for Honeywell RFID IH25 etc. devices.
 
 ## Supported platforms
