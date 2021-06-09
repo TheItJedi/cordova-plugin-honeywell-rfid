@@ -1,0 +1,17 @@
+{
+    "name": "cordova-plugin-honeywell-rfid",
+    "version": "1.0.0",
+    "description": "Honeywell RFID Plugin",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/TheItJedi/cordova-plugin-honeywell-rfid.git"
+    },
+    "keywords": [
+        "phonegap",
+        "cordova",
+        "honeywell",
+        "rfid",
+        "IH25"
+    ],
+    "author": "ITJedi"
+  }

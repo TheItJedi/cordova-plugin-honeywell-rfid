@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="cordova-plugin-honeywell-rfid" version="0.0.1">
+    <name>Honeywell RFID Plugin</name>
+
+    <description>An Android Cordova plugin that interfaces with the RFID Reader IH25</description>
+    <license>MIT</license>
+    <author>ITJedi</author>
+
+    <keywords>cordova,android,honeywell,rfid,ih25,CT60,alert</keywords>
+    <repo>https://github.com/TheItJedi/cordova-plugin-honeywell-rfid.git</repo>
+    <issue>https://github.com/TheItJedi/cordova-plugin-honeywell-rfid/issues</issue>
+  
+    <engines>
+        <engine name="cordova" version=">=3.0.0"/>
+    </engines>
+  
+    <js-module src="www/HoneywellRFID.js" name="honeywellrfidPlugin">
+        <clobbers target="HoneywellRFID" />
+    </js-module>
+
+    <dependency id="dff-cordova-plugin-common" url="https://github.com/dff-solutions/dff.CordovaPlugin.Common.git"/>
+    <dependency id="cordova-plugin-androidx"/>
+    <dependency id="cordova-plugin-androidx-adapter"/>
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="HoneywellRFID">
+                <param name="android-package" value="com.stericycle.cordova.plugin.honeywell.HoneywellRFIDPlugin"/>
+                
+
+            </feature>
+        </config-file>
+        <config-file parent="/manifest" target="AndroidManifest.xml">
+            <uses-permission android:name="com.honeywell.decode.permission.DECODE"/>
+            <uses-permission android:name="android.permission.BLUETOOTH" />
+            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+            <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+        </config-file>
+        <config-file parent="application" target="AndroidManifest.xml">
+            <service android:name="com.honeywell.rfidservice.RfidService" />
+        </config-file>
+
+        
+        <lib-file src="libs/honeywell_rfid_sdk.jar"/>
+
+        <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/HoneywellRFIDPlugin.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell" />
+        <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/Common/RFIDListener.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell/common" />
+        <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/Common/RFIDReaderManager.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell/common" />
+        <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/rfid/action/HoneywellAction.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell/rfid/action" />
+        <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/rfid/action/ConnectRFIDReader.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell/rfid/action" />
+        
+        
+    </platform>
+</plugin>
