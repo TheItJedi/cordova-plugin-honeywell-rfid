@@ -16,8 +16,7 @@
      "onRFIDEvent",
      "onFailureEvent",
      "onRFIDDeviceConnectionEvent",
-     "listRFIDDevices",
-     "listConnectedRFIDDevices"
+     "connectRFIDReader"
  ];
  
  // connection event status codes
