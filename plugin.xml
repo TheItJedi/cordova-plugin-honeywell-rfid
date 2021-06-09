@@ -21,7 +21,6 @@
     </js-module>
 
     <dependency id="dff-cordova-plugin-common" url="https://github.com/dff-solutions/dff.CordovaPlugin.Common.git"/>
-    <dependency id="cordova-plugin-androidx"/>
     <dependency id="cordova-plugin-androidx-adapter"/>
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
