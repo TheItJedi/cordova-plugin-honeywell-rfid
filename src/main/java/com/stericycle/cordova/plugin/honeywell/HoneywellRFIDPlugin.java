@@ -42,8 +42,8 @@ public class HoneywellRFIDPlugin extends CommonPlugin {
         mrfidMgr = RfidManager.getInstance(this.cordova.getActivity());
         mrfidReaderMgr = new RFIDReaderManager();
         CordovaPluginLog.d(LOG_TAG, "RfidManager created");
-        this.mListener = new RFIDListener(mrfidMgr,mrfidReaderMgr);
-        mrfidMgr.addEventListener(this.mListener);
+        mListener = new RFIDListener(mrfidMgr,mrfidReaderMgr);
+        mrfidMgr.addEventListener(mListener);
         CordovaPluginLog.d(LOG_TAG, "Event Listener Created and Added");
     }
     
@@ -55,7 +55,8 @@ public class HoneywellRFIDPlugin extends CommonPlugin {
     @Override
     public void onResume(boolean multitasking) {
         super.onResume(multitasking);
-
+        mrfidMgr.removeEventListener(mListener);
+        mrfidMgr.addEventListener(mListener);
         /**if (barcodeReaderManager.getInstance() != null) {
             CordovaPluginLog.d(LOG_TAG, "claim barcode reader");
 
@@ -76,6 +77,8 @@ public class HoneywellRFIDPlugin extends CommonPlugin {
     @Override
     public void onPause(boolean multitasking) {
         super.onPause(multitasking);
+        mrfidMgr.removeEventListener(mListener);
+        mrfidMgr.addEventListener(mListener);
         /*if (barcodeReaderManager.getInstance() != null) {
             CordovaPluginLog.d(LOG_TAG, "release barcode reader");
             // release the scanner claim so we don't get any scanner
@@ -90,7 +93,7 @@ public class HoneywellRFIDPlugin extends CommonPlugin {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
+        mrfidMgr.removeEventListener(mListener);
         /*if (barcodeReaderManager.getInstance() != null) {
             // unregister barcode event listener
             barcodeReaderManager.getInstance().removeBarcodeListener(this.barcodeListener);
