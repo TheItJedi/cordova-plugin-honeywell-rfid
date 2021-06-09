@@ -1,7 +1,6 @@
 package com.stericycle.cordova.plugin.honeywell.rfid.action;
 
 import com.dff.cordova.plugin.common.log.CordovaPluginLog;
-import com.stericycle.cordova.plugin.honeywell.HoneywellRFIDPlugin;
 import com.stericycle.cordova.plugin.honeywell.common.RFIDReaderManager;
 import com.honeywell.rfidservice.RfidManager;
 import org.apache.cordova.CallbackContext;
