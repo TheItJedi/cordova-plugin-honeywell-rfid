@@ -226,4 +226,8 @@ public class HoneywellRFIDPlugin extends CommonPlugin {
 
         }
     };
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> b2b6634e71f3310073f38e9accdd3d0034ca11c1
