@@ -46,8 +46,8 @@
         <lib-file src="libs/honeywell_rfid_sdk.jar"/>
 
         <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/HoneywellRFIDPlugin.Java"  target-dir="src/com/stericycle/cordova/plugin/honeywell" />
-        <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/Common/RFIDListener.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell/common" />
-        <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/Common/RFIDReaderManager.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell/common" />
+        <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/common/RFIDListener.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell/common" />
+        <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/common/RFIDReaderManager.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell/common" />
         <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/rfid/action/HoneywellAction.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell/rfid/action" />
         <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/rfid/action/ConnectRFIDReader.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell/rfid/action" />
         
