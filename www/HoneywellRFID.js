@@ -1,4 +1,3 @@
-cordova.define("cordova-plugin-honeywell-rfid.honeywellrfidPlugin", function(require, exports, module) {
 /**
  * JavaScript interface to abstract
  * the usage of the cordova honeywell plugin.
@@ -13,11 +12,11 @@ cordova.define("cordova-plugin-honeywell-rfid.honeywellrfidPlugin", function(req
  var self = {};
  
  var actions = [
-     "onLog",
-     "onRFIDStatusEvent",
-     "onReadTagEvent",
-     "connectRFIDReader",
-     "disconnectRFIDReader"
+    "onLog",
+    "onRFIDStatusEvent",
+    "onReadTagEvent",
+    "connectRFIDReader",
+    "disconnectRFIDReader"
  ];
  
  // connection event status codes
@@ -314,4 +313,3 @@ cordova.define("cordova-plugin-honeywell-rfid.honeywellrfidPlugin", function(req
  });
  
  module.exports = self;
-});
