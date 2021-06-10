@@ -4,11 +4,12 @@ public class RFIDStatusEvent {
     public enum EventType{
         MANAGERCREATED(0),
         DEVICECONNECTED(1),
-        READERCREATED(2),
-        READERTRIGGERED(3),
-        STARTREAD(4),
-        STOPREAD(5),
-        READTAG(6);
+        DEVICEDISCONNECTED(2),
+        READERCREATED(3),
+        READERTRIGGERED(4),
+        STARTREAD(5),
+        STOPREAD(6),
+        READTAG(7);
 
 
         private final int value;
@@ -28,6 +29,12 @@ public class RFIDStatusEvent {
     public static RFIDStatusEvent DeviceConnectedEvent(String macAddress){
         RFIDStatusEvent event = new RFIDStatusEvent();
         event.StatusEventType = RFIDStatusEvent.EventType.DEVICECONNECTED;
+        event.EventMessage = "Mac Address " + macAddress;
+        return event;
+    }
+    public static RFIDStatusEvent DeviceDisConnectedEvent(String macAddress)){
+        RFIDStatusEvent event = new RFIDStatusEvent();
+        event.StatusEventType = RFIDStatusEvent.EventType.DEVICEDISCONNECTED;
         event.EventMessage = "Mac Address " + macAddress;
         return event;
     }
@@ -69,6 +76,6 @@ public class RFIDStatusEvent {
     }
     public EventType StatusEventType;
     public String EventMessage;
-    
+
 }
 
