@@ -8,20 +8,21 @@ import org.apache.cordova.CordovaInterface;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class ConnectRFIDReader extends HoneywellAction {
+public class DisconnectRFIDReader extends HoneywellAction {
 
-    private static final String TAG = "com.stericycle.cordova.plugin.honeywell.rfid.action.ConnectRFIDReader";
-    public static final String ACTION_NAME = "connectRFIDReader";
+    private static final String TAG = "com.stericycle.cordova.plugin.honeywell.rfid.action.DisconnectRFIDReader";
+    public static final String ACTION_NAME = "disconnectRFIDReader";
 
-    public ConnectRFIDReader(String action, JSONArray args, CallbackContext callbackContext,
-                               CordovaInterface cordova, RFIDReaderManager readerManager, RfidManager rfidManagerr) {
+    public DisconnectRFIDReader(String action, JSONArray args, CallbackContext callbackContext,
+                             CordovaInterface cordova, RFIDReaderManager readerManager, RfidManager rfidManagerr) {
         super(action, args, callbackContext, cordova, readerManager,  rfidManagerr);
     }
 
     public static final String JSON_ARGS_MAC_ADDRESS = "macaddress";
     public static final String[] JSON_ARGS = { JSON_ARGS_MAC_ADDRESS };
     public static final String MAC_ADDRESS_REQUIRED = "Mac Address is Required";
-    public static final String UNABLE_TOCONNECT = "Unable to Connect to Reader";
+    public static final String NOREADER_CONNECTED = "Unable to Connect to Reader";
+    public static final String UNABLE_TODISCONNECT = "Unable to Disconnect to Reader";
     @Override
     public void run() {
         try {
@@ -29,7 +30,7 @@ public class ConnectRFIDReader extends HoneywellAction {
             if(this.rfidManager != null) {
 
                 // check for already connected barcode reader
-                if(this.readerManager.getInstance() == null) {
+                if(this.readerManager.getInstance() != null) {
 
                     // get optional name parameter
                     String[] emptyArray = {};
@@ -44,14 +45,19 @@ public class ConnectRFIDReader extends HoneywellAction {
                         }
                         else
                         {
-                            if(this.rfidManager.connect(macaddress)) {
+                            if(this.readerManager.getInstance() != null  || this.rfidManager.isConnected()){
+                                Boolean disconnected = this.rfidManager.disconnect();
+                                if(!disconnected) {
+                                    this.readerManager.setInstance(null);
+                                    this.callbackContext.success();
+                                }else {
+                                    this.callbackContext.error(UNABLE_TODISCONNECT);
+                                }
 
-                                this.callbackContext.success();
                             }
                             else{
-                                this.callbackContext.error(UNABLE_TOCONNECT);
+                                this.callbackContext.error(NOREADER_CONNECTED);
                             }
-
                         }
                     }
                     catch (Exception e)
@@ -62,14 +68,12 @@ public class ConnectRFIDReader extends HoneywellAction {
                 }
                 else
                 {
-                    // a reader is already connected
-                    this.callbackContext.error(RFID_READER_ALREADY_ADDED);
+
+                    this.callbackContext.error(NO_CONNECTED_DEVICES);
                 }
             }
             else
             {
-                // aidc manager is initialized from pluginInitialize method.
-                // this error below should never occur.
                 callbackContext.error(RFIDMGR_NOT_INIT);
             }
         }

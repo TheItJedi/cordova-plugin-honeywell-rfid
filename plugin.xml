@@ -49,9 +49,16 @@
 
         <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/HoneywellRFIDPlugin.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell" />
         <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/common/RFIDListener.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell/common" />
+        <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/common/RFIDStatusEvent.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell/common" />
         <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/common/RFIDReaderManager.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell/common" />
         <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/rfid/action/HoneywellAction.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell/rfid/action" />
         <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/rfid/action/ConnectRFIDReader.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell/rfid/action" />
+        <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/rfid/action/DisconnectRFIDReader.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell/rfid/action" />
+        <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/rfid/ReadTagHandler.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell/rfid" />
+        <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/rfid/RFIDStatusHandler.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell/rfid" />
+        <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/json/model/JsonRFIDStatusEvent.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell/json/model" />
+        <source-file src="src/main/java/com/stericycle/cordova/plugin/honeywell/json/model/JsonRFIDTagReadEvent.java"  target-dir="src/com/stericycle/cordova/plugin/honeywell/json/model" />
+        
         
         
     </platform>

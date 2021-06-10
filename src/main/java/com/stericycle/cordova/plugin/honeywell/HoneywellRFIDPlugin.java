@@ -11,6 +11,7 @@ import com.honeywell.rfidservice.rfid.RfidReader;
 import com.stericycle.cordova.plugin.honeywell.common.RFIDListener;
 import com.stericycle.cordova.plugin.honeywell.common.RFIDReaderManager;
 import com.stericycle.cordova.plugin.honeywell.rfid.action.ConnectRFIDReader;
+import com.stericycle.cordova.plugin.honeywell.rfid.action.DisconnectRFIDReader;
 
 import org.apache.cordova.CallbackContext;
 import org.json.JSONArray;
@@ -55,8 +56,7 @@ public class HoneywellRFIDPlugin extends CommonPlugin {
     @Override
     public void onResume(boolean multitasking) {
         super.onResume(multitasking);
-        mrfidMgr.removeEventListener(mListener);
-        mrfidMgr.addEventListener(mListener);
+
         /**if (barcodeReaderManager.getInstance() != null) {
             CordovaPluginLog.d(LOG_TAG, "claim barcode reader");
 
@@ -77,8 +77,7 @@ public class HoneywellRFIDPlugin extends CommonPlugin {
     @Override
     public void onPause(boolean multitasking) {
         super.onPause(multitasking);
-        mrfidMgr.removeEventListener(mListener);
-        mrfidMgr.addEventListener(mListener);
+
         /*if (barcodeReaderManager.getInstance() != null) {
             CordovaPluginLog.d(LOG_TAG, "release barcode reader");
             // release the scanner claim so we don't get any scanner
@@ -93,7 +92,7 @@ public class HoneywellRFIDPlugin extends CommonPlugin {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mrfidMgr.removeEventListener(mListener);
+
         /*if (barcodeReaderManager.getInstance() != null) {
             // unregister barcode event listener
             barcodeReaderManager.getInstance().removeBarcodeListener(this.barcodeListener);
@@ -127,18 +126,32 @@ public class HoneywellRFIDPlugin extends CommonPlugin {
     @Override
     public boolean execute(String action, final JSONArray args, final CallbackContext callbackContext)
             throws JSONException {
-
+        mrfidMgr.removeEventListener(mListener);
+        mrfidMgr.addEventListener(mListener);
         CordovaPluginLog.i(LOG_TAG, "call for action: " + action + "; args: " + args);
         CordovaAction cordovaAction = null;
         if (ConnectRFIDReader.ACTION_NAME.equals(action)) {
             cordovaAction = new ConnectRFIDReader(action, args, callbackContext, this.cordova,
                     this.mrfidReaderMgr, this.mrfidMgr);
             }
-        // CordovaAction cordovaAction = null;
-        /*           
-        if ("onBarcodeEvent".equals(action)) {
-            this.barcodeListener.setBarcodeCallback(callbackContext);
+        if ("onRFIDStatusEvent".equals(action)) {
+            this.mListener.setStatusEventCallback(callbackContext);
             return true;
+
+        } else if ("onReadTagEvent".equals(action)) {
+            this.mListener.setReadTagEventCallback(callbackContext);
+            return true;
+
+        }else if (ConnectRFIDReader.ACTION_NAME.equals(action)) {
+            cordovaAction = new ConnectRFIDReader(action, args, callbackContext, this.cordova,
+                    this.mrfidReaderMgr, this.mrfidMgr);
+        }else if (DisconnectRFIDReader.ACTION_NAME.equals(action)) {
+            cordovaAction = new DisconnectRFIDReader(action, args, callbackContext, this.cordova,
+                    this.mrfidReaderMgr, this.mrfidMgr);
+        }
+
+        // CordovaAction cordovaAction = null;
+        /*
         } else if ("onFailureEvent".equals(action)) {
             this.barcodeListener.setFailureCallback(callbackContext);
             return true;
@@ -201,32 +214,4 @@ public class HoneywellRFIDPlugin extends CommonPlugin {
 
         return super.execute(action, args, callbackContext);
     }
-    private EventListener mEventListener = new EventListener() {
-        private static final String TAG = "com.stericycle.cordova.plugin.honeywell.common.RFIDListener";
-        @Override
-        public void onDeviceConnected(Object o) {
-            CordovaPluginLog.i(TAG,"onDeviceConnected");
-        }
-
-        @Override
-        public void onDeviceDisconnected(Object o) {
-            CordovaPluginLog.i(TAG,"onDeviceDisconnected");
-        }
-
-        @Override
-        public void onReaderCreated(boolean b, RfidReader rfidReader) {
-            CordovaPluginLog.i(TAG,"onReaderCreated");
-        }
-
-        @Override
-        public void onRfidTriggered(boolean b) {
-            CordovaPluginLog.i(TAG,"onRfidTriggered");
-        }
-
-        @Override
-        public void onTriggerModeSwitched(TriggerMode triggerMode) {
-            CordovaPluginLog.i(TAG,"onTriggerModeSwitched");
-
-        }
-    };
 }
