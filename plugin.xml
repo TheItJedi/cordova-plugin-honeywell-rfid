@@ -41,8 +41,8 @@
             <service android:name="com.honeywell.rfidservice.RfidService" />
         </config-file>
         <config-file target="res/xml/config.xml" parent="/*">
-            <preference name="android-minSdkVersion" value="17" />
-            <preference name="android-targetSdkVersion" value="28" />
+            <!--<preference name="android-minSdkVersion" value="17" />
+            <preference name="android-targetSdkVersion" value="28" />-->
         </config-file>
         
         <lib-file src="libs/honeywell_rfid_sdk.jar"/>
