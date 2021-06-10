@@ -32,7 +32,7 @@ public class RFIDStatusEvent {
         event.EventMessage = "Mac Address " + macAddress;
         return event;
     }
-    public static RFIDStatusEvent DeviceDisConnectedEvent(String macAddress)){
+    public static RFIDStatusEvent DeviceDisConnectedEvent(String macAddress){
         RFIDStatusEvent event = new RFIDStatusEvent();
         event.StatusEventType = RFIDStatusEvent.EventType.DEVICEDISCONNECTED;
         event.EventMessage = "Mac Address " + macAddress;
