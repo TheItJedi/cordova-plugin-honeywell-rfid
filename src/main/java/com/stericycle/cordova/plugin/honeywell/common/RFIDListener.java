@@ -46,6 +46,7 @@ public class RFIDListener implements EventListener,OnTagReadListener {
     @Override
     public void onDeviceDisconnected(Object o) {
         CordovaPluginLog.i(TAG,"onDeviceDisconnected");
+        this.rfidStatusHandler.onRFIDStatusEvent(RFIDStatusEvent.DeviceDisConnectedEvent(o.toString()));
     }
 
     @Override
