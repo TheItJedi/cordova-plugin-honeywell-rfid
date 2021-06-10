@@ -47,7 +47,9 @@ public class RFIDListener implements EventListener,OnTagReadListener {
     public void onDeviceDisconnected(Object o) {
         CordovaPluginLog.i(TAG,"onDeviceDisconnected");
         this.rfidStatusHandler.onRFIDStatusEvent(RFIDStatusEvent.DeviceDisConnectedEvent(o.toString()));
-        readerManager.setInstance(null);
+        if(this.readerManager.getInstance() != null){
+            readerManager.setInstance(null);
+        }
         readerManager.macAddress = "";
     }
 
@@ -77,7 +79,7 @@ public class RFIDListener implements EventListener,OnTagReadListener {
             if(isReaderAvailable()){
                 this.rfidStatusHandler.onRFIDStatusEvent(RFIDStatusEvent.StartStopRead(true));
                 readerManager.getInstance().setOnTagReadListener(this);
-                readerManager.getInstance().read(TagAdditionData.get("None"), new TagReadOption());
+                readerManager.getInstance().read(TagAdditionData.NONE, new TagReadOption());
             }
         }
         else{
