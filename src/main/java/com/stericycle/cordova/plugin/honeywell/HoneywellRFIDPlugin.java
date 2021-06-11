@@ -12,6 +12,7 @@ import com.stericycle.cordova.plugin.honeywell.common.RFIDListener;
 import com.stericycle.cordova.plugin.honeywell.common.RFIDReaderManager;
 import com.stericycle.cordova.plugin.honeywell.rfid.action.ConnectRFIDReader;
 import com.stericycle.cordova.plugin.honeywell.rfid.action.DisconnectRFIDReader;
+import com.stericycle.cordova.plugin.honeywell.rfid.action.SetTagPrefixFilterAction;
 
 import org.apache.cordova.CallbackContext;
 import org.json.JSONArray;
@@ -47,7 +48,7 @@ public class HoneywellRFIDPlugin extends CommonPlugin {
         mrfidMgr.addEventListener(mListener);
         CordovaPluginLog.d(LOG_TAG, "Event Listener Created and Added");
     }
-    
+
     /**
      * Called when the activity will start interacting with the user.
      *
@@ -58,15 +59,15 @@ public class HoneywellRFIDPlugin extends CommonPlugin {
         super.onResume(multitasking);
 
         /**if (barcodeReaderManager.getInstance() != null) {
-            CordovaPluginLog.d(LOG_TAG, "claim barcode reader");
+         CordovaPluginLog.d(LOG_TAG, "claim barcode reader");
 
-            try {
-                barcodeReaderManager.getInstance().claim();
-            } catch (ScannerUnavailableException e) {
-                CordovaPluginLog.e(LOG_TAG, e.getMessage(), e);
-            }
-        }
-        */
+         try {
+         barcodeReaderManager.getInstance().claim();
+         } catch (ScannerUnavailableException e) {
+         CordovaPluginLog.e(LOG_TAG, e.getMessage(), e);
+         }
+         }
+         */
     }
 
     /**
@@ -130,23 +131,20 @@ public class HoneywellRFIDPlugin extends CommonPlugin {
         mrfidMgr.addEventListener(mListener);
         CordovaPluginLog.i(LOG_TAG, "call for action: " + action + "; args: " + args);
         CordovaAction cordovaAction = null;
-        if (ConnectRFIDReader.ACTION_NAME.equals(action)) {
-            cordovaAction = new ConnectRFIDReader(action, args, callbackContext, this.cordova,
-                    this.mrfidReaderMgr, this.mrfidMgr);
-            }
         if ("onRFIDStatusEvent".equals(action)) {
             this.mListener.setStatusEventCallback(callbackContext);
             return true;
-
         } else if ("onReadTagEvent".equals(action)) {
             this.mListener.setReadTagEventCallback(callbackContext);
             return true;
-
         }else if (ConnectRFIDReader.ACTION_NAME.equals(action)) {
             cordovaAction = new ConnectRFIDReader(action, args, callbackContext, this.cordova,
                     this.mrfidReaderMgr, this.mrfidMgr);
         }else if (DisconnectRFIDReader.ACTION_NAME.equals(action)) {
             cordovaAction = new DisconnectRFIDReader(action, args, callbackContext, this.cordova,
+                    this.mrfidReaderMgr, this.mrfidMgr);
+        }else if (SetTagPrefixFilterAction.ACTION_NAME.equals(action)) {
+            cordovaAction = new SetTagPrefixFilterAction(action, args, callbackContext, this.cordova,
                     this.mrfidReaderMgr, this.mrfidMgr);
         }
 

@@ -8,6 +8,13 @@ public class RFIDReaderManager {
 
     private RfidReader mRFIDReader;
     public String macAddress ;
+    public String tagPrefixFilter;
+    public Boolean autoReadOnTrigger;
+    public RFIDReaderManager(){
+        macAddress = "";
+        tagPrefixFilter = "";
+        autoReadOnTrigger = true;
+    }
     public void setInstance(RfidReader reader)
     {
         mRFIDReader = reader;

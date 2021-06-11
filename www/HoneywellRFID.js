@@ -16,7 +16,9 @@
     "onRFIDStatusEvent",
     "onReadTagEvent",
     "connectRFIDReader",
-    "disconnectRFIDReader"
+    "disconnectRFIDReader",
+    "setAutoReadOnTrigger",
+    "setTagPrefixFilter"
  ];
  
  // connection event status codes

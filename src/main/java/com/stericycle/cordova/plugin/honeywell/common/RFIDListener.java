@@ -38,7 +38,9 @@ public class RFIDListener implements EventListener,OnTagReadListener {
         this.rfidStatusHandler.onRFIDStatusEvent(RFIDStatusEvent.DeviceConnectedEvent(o.toString()));
         readerManager.macAddress = o.toString();
         if(readerManager.getInstance() == null){
-            rfidManager.createReader();
+            if(readerManager.autoReadOnTrigger) {
+                rfidManager.createReader();
+            }
         }
 
     }
@@ -98,11 +100,18 @@ public class RFIDListener implements EventListener,OnTagReadListener {
     }
     @Override
     public void onTagRead(final TagReadData[] t) {
+        CordovaPluginLog.i(TAG,"onTagRead");
         for (TagReadData trd : t) {
             String epc = trd.getEpcHexStr();
-            CordovaPluginLog.i(TAG,"onTagRead");
-            this.rfidStatusHandler.onRFIDStatusEvent(RFIDStatusEvent.ReadTagEvent(epc));
-            this.readTagHandler.onReadTagEvent(trd);
+            Boolean sendEvent = true;
+            if(this.readerManager.tagPrefixFilter != null || this.readerManager.tagPrefixFilter != ""){
+                sendEvent = epc.startsWith(this.readerManager.tagPrefixFilter);
+            }
+
+            if(sendEvent) {
+                this.rfidStatusHandler.onRFIDStatusEvent(RFIDStatusEvent.ReadTagEvent(epc));
+                this.readTagHandler.onReadTagEvent(trd);
+            }
         }
     }
 }

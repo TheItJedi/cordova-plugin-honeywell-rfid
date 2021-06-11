@@ -25,7 +25,6 @@ public class ConnectRFIDReader extends HoneywellAction {
     @Override
     public void run() {
         try {
-            // check aidc manager (really necessary?)
             if(this.rfidManager != null) {
 
                 // check for already connected barcode reader
