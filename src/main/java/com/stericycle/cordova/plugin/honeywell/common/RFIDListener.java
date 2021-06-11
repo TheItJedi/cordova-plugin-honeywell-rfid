@@ -38,9 +38,7 @@ public class RFIDListener implements EventListener,OnTagReadListener {
         this.rfidStatusHandler.onRFIDStatusEvent(RFIDStatusEvent.DeviceConnectedEvent(o.toString()));
         readerManager.macAddress = o.toString();
         if(readerManager.getInstance() == null){
-            if(readerManager.autoReadOnTrigger) {
                 rfidManager.createReader();
-            }
         }
 
     }
@@ -79,16 +77,20 @@ public class RFIDListener implements EventListener,OnTagReadListener {
         this.rfidStatusHandler.onRFIDStatusEvent(RFIDStatusEvent.RFIDReaderTriggered(b));
         if(b){
             if(isReaderAvailable()){
-                this.rfidStatusHandler.onRFIDStatusEvent(RFIDStatusEvent.StartStopRead(true));
-                readerManager.getInstance().setOnTagReadListener(this);
-                readerManager.getInstance().read(TagAdditionData.NONE, new TagReadOption());
+                if(readerManager.autoReadOnTrigger) {
+                    this.rfidStatusHandler.onRFIDStatusEvent(RFIDStatusEvent.StartStopRead(true));
+                    readerManager.getInstance().setOnTagReadListener(this);
+                    readerManager.getInstance().read(TagAdditionData.NONE, new TagReadOption());
+                }
             }
         }
         else{
             if (isReaderAvailable()) {
-                this.rfidStatusHandler.onRFIDStatusEvent(RFIDStatusEvent.StartStopRead(false));
-                readerManager.getInstance().stopRead();
-                readerManager.getInstance().removeOnTagReadListener(this);
+                if(readerManager.autoReadOnTrigger) {
+                    this.rfidStatusHandler.onRFIDStatusEvent(RFIDStatusEvent.StartStopRead(false));
+                    readerManager.getInstance().stopRead();
+                    readerManager.getInstance().removeOnTagReadListener(this);
+                }
             }
         }
     }
