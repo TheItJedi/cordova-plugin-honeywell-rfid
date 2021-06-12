@@ -106,7 +106,7 @@ public class RFIDListener implements EventListener,OnTagReadListener {
         for (TagReadData trd : t) {
             String epc = trd.getEpcHexStr();
             Boolean sendEvent = true;
-            if(this.readerManager.tagPrefixFilter != null || this.readerManager.tagPrefixFilter != ""){
+            if(this.readerManager.tagPrefixFilter != null && this.readerManager.tagPrefixFilter != ""){
                 sendEvent = epc.startsWith(this.readerManager.tagPrefixFilter);
             }
 
