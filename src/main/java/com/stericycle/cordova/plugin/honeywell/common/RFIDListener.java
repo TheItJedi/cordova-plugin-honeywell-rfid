@@ -88,8 +88,11 @@ public class RFIDListener implements EventListener,OnTagReadListener {
                         pow[0].setWritePower(readerManager.antennaWritePow);
                         setPower = true;
                     }
-                    if(setPower)
-                        rfidReader.setAntennaPower(pow);
+                    if(setPower) {
+                        AntennaPower[]  newPow = new AntennaPower[1];
+                        newPow[0] = pow[0];
+                        rfidReader.setAntennaPower(newPow);
+                    }
                     
                 }
                 rfidReader.setRegion(readerManager.readerRegion);
