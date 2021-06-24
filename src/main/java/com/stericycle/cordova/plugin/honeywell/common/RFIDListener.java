@@ -33,17 +33,20 @@ public class RFIDListener implements EventListener,OnTagReadListener {
         this.readTagHandler.setCallBack(callbackContext);
     }
     public RFIDConnectionStatus GetRFIDStatus() {
-        if (this.readerManager.macAddress != null && this.readerManager.macAddress != "") {
+        CordovaPluginLog.i(TAG,"GetRFIDStatus macAddress" + this.readerManager.macAddress);
+        if (this.readerManager.macAddress == null || this.readerManager.macAddress == "") {
+            return RFIDConnectionStatus.NotConnected();
+        }
+        else{
             if(isReaderAvailable()) {
-                    return RFIDConnectionStatus.DeviceAndReaderConnected(this.readerManager.macAddress);
-                }
+                return RFIDConnectionStatus.DeviceAndReaderConnected(this.readerManager.macAddress);
+            }
             else
             {
                 return RFIDConnectionStatus.DeviceConnected(this.readerManager.macAddress);
             }
-
         }
-        return RFIDConnectionStatus.NotConnected();
+       
     }
     @Override
     public void onDeviceConnected(Object o) {
