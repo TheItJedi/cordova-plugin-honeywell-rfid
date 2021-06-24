@@ -77,7 +77,7 @@ public class RFIDListener implements EventListener,OnTagReadListener {
             readerManager.setInstance(rfidReader);
             try {
                 AntennaPower[] pow = rfidReader.getAntennaPower();
-                if(pow.length == 1)
+                if(pow.length >= 1)
                 {
                     boolean setPower = false;
                     if(pow[0].getReadPower() != readerManager.antennaReadPow) {
