@@ -32,6 +32,19 @@ public class RFIDListener implements EventListener,OnTagReadListener {
     public void setReadTagEventCallback(CallbackContext callbackContext) {
         this.readTagHandler.setCallBack(callbackContext);
     }
+    public RFIDConnectionStatus GetRFIDStatus() {
+        if (this.readerManager.macAddress != null || this.readerManager.macAddress != "") {
+            if(isReaderAvailable()) {
+                    return RFIDConnectionStatus.DeviceAndReaderConnected(this.readerManager.macAddress);
+                }
+            else
+            {
+                return RFIDConnectionStatus.DeviceConnected(this.readerManager.macAddress);
+            }
+
+        }
+        return RFIDConnectionStatus.NotConnected();
+    }
     @Override
     public void onDeviceConnected(Object o) {
         CordovaPluginLog.i(TAG,"onDeviceConnected");

@@ -12,6 +12,7 @@ import com.stericycle.cordova.plugin.honeywell.common.RFIDListener;
 import com.stericycle.cordova.plugin.honeywell.common.RFIDReaderManager;
 import com.stericycle.cordova.plugin.honeywell.rfid.action.ConnectRFIDReader;
 import com.stericycle.cordova.plugin.honeywell.rfid.action.DisconnectRFIDReader;
+import com.stericycle.cordova.plugin.honeywell.rfid.action.GetRFIDConnectionStatus;
 import com.stericycle.cordova.plugin.honeywell.rfid.action.SetTagPrefixFilterAction;
 
 import org.apache.cordova.CallbackContext;
@@ -146,6 +147,9 @@ public class HoneywellRFIDPlugin extends CommonPlugin {
         }else if (SetTagPrefixFilterAction.ACTION_NAME.equals(action)) {
             cordovaAction = new SetTagPrefixFilterAction(action, args, callbackContext, this.cordova,
                     this.mrfidReaderMgr, this.mrfidMgr);
+        }else if (GetRFIDConnectionStatus.ACTION_NAME.equals(action)) {
+            cordovaAction = new GetRFIDConnectionStatus(action, args, callbackContext, this.cordova,
+                    this.mrfidReaderMgr, this.mrfidMgr,this.mListener.GetRFIDStatus());
         }
 
         // CordovaAction cordovaAction = null;
