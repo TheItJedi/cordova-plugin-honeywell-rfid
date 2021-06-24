@@ -3,6 +3,7 @@ import com.dff.cordova.plugin.common.log.CordovaPluginLog;
 import com.honeywell.rfidservice.EventListener;
 import com.honeywell.rfidservice.RfidManager;
 import com.honeywell.rfidservice.TriggerMode;
+import com.honeywell.rfidservice.rfid.AntennaPower;
 import com.honeywell.rfidservice.rfid.OnTagReadListener;
 import com.honeywell.rfidservice.rfid.Region;
 import com.honeywell.rfidservice.rfid.RfidReader;
@@ -75,7 +76,23 @@ public class RFIDListener implements EventListener,OnTagReadListener {
             this.rfidStatusHandler.onRFIDStatusEvent(RFIDStatusEvent.ReaderCreatedEvent());
             readerManager.setInstance(rfidReader);
             try {
-                rfidReader.setRegion(Region.NA);
+                AntennaPower[] pow = rfidReader.getAntennaPower();
+                if(pow.length == 1)
+                {
+                    boolean setPower = false;
+                    if(pow[0].getReadPower() != readerManager.antennaReadPow) {
+                        pow[0].setReadPower(readerManager.antennaReadPow);
+                        setPower = true;
+                    }
+                    if(pow[0].getWritePower() != readerManager.antennaWritePow) {
+                        pow[0].setWritePower(readerManager.antennaWritePow);
+                        setPower = true;
+                    }
+                    if(setPower)
+                        rfidReader.setAntennaPower(pow);
+                    
+                }
+                rfidReader.setRegion(readerManager.readerRegion);
             } catch (RfidReaderException e) {
                 e.printStackTrace();
             }

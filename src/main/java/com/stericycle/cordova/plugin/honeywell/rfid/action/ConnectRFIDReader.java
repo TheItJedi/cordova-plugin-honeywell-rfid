@@ -19,7 +19,9 @@ public class ConnectRFIDReader extends HoneywellAction {
     }
 
     public static final String JSON_ARGS_MAC_ADDRESS = "macaddress";
-    public static final String[] JSON_ARGS = { JSON_ARGS_MAC_ADDRESS };
+    public static final String JSON_ARGS_ANT_READ_POWER = "antReadPower";
+    public static final String JSON_ARGS_ANT_WRITE_POWER = "antWritePower";
+    public static final String[] REQ_JSON_ARGS = { JSON_ARGS_MAC_ADDRESS };
     public static final String MAC_ADDRESS_REQUIRED = "Mac Address is Required";
     public static final String UNABLE_TOCONNECT = "Unable to Connect to Reader";
     @Override
@@ -30,11 +32,12 @@ public class ConnectRFIDReader extends HoneywellAction {
                 // check for already connected barcode reader
                 if(this.readerManager.getInstance() == null) {
 
-                    // get optional name parameter
-                    String[] emptyArray = {};
-                    JSONObject jsonArgs = super.checkJsonArgs(args, emptyArray);
-                    String macaddress = jsonArgs.optString(JSON_ARGS_MAC_ADDRESS,"0C:23:69:19:6C:71");
-
+                    JSONObject jsonArgs = super.checkJsonArgs(args, REQ_JSON_ARGS);
+                    String macaddress = jsonArgs.getString(JSON_ARGS_MAC_ADDRESS);
+                    int readPower = jsonArgs.optInt(JSON_ARGS_ANT_READ_POWER,3000);
+                    int writePower = jsonArgs.optInt(JSON_ARGS_ANT_WRITE_POWER,3000);
+                    this.readerManager.antennaReadPow = readPower;
+                    this.readerManager.antennaWritePow = writePower;
                     try
                     {
                         // create new barcode reader with no properties set
