@@ -1,5 +1,8 @@
 package com.stericycle.cordova.plugin.honeywell.rfid.action;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+
 import com.dff.cordova.plugin.common.log.CordovaPluginLog;
 import com.stericycle.cordova.plugin.honeywell.common.RFIDReaderManager;
 import com.honeywell.rfidservice.RfidManager;
@@ -14,7 +17,7 @@ public class ConnectRFIDReader extends HoneywellAction {
     public static final String ACTION_NAME = "connectRFIDReader";
 
     public ConnectRFIDReader(String action, JSONArray args, CallbackContext callbackContext,
-                               CordovaInterface cordova, RFIDReaderManager readerManager, RfidManager rfidManagerr) {
+                             CordovaInterface cordova, RFIDReaderManager readerManager, RfidManager rfidManagerr) {
         super(action, args, callbackContext, cordova, readerManager,  rfidManagerr);
     }
 
@@ -46,6 +49,15 @@ public class ConnectRFIDReader extends HoneywellAction {
                         }
                         else
                         {
+                            //Do quick LEScan then stop
+                            BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+                            mBluetoothAdapter.startLeScan(mLeScanCallback);
+                            try {
+                                Thread.sleep(5000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            mBluetoothAdapter.stopLeScan(mLeScanCallback);
                             if(this.rfidManager.connect(macaddress)) {
 
                                 this.callbackContext.success();
@@ -80,4 +92,10 @@ public class ConnectRFIDReader extends HoneywellAction {
             this.callbackContext.error(e.getMessage());
         }
     }
+    private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
+        @Override
+        public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
+
+        }
+    };
 }
