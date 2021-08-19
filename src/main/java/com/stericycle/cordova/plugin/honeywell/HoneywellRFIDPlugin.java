@@ -1,6 +1,13 @@
 package com.stericycle.cordova.plugin.honeywell;
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.pm.PackageManager;
+import android.os.Build;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.dff.cordova.plugin.common.CommonPlugin;
 import com.dff.cordova.plugin.common.action.CordovaAction;
 import com.dff.cordova.plugin.common.log.CordovaPluginLog;
@@ -19,6 +26,9 @@ import org.apache.cordova.CallbackContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HoneywellRFIDPlugin extends CommonPlugin {
 
     private static final String LOG_TAG = "com.stericycle.cordova.plugin.honeywell.HoneywellRFIDPlugin";
@@ -27,10 +37,9 @@ public class HoneywellRFIDPlugin extends CommonPlugin {
     private String macAddress;
     private BluetoothAdapter mBluetoothAdapter;
     private RFIDListener mListener;
-    //private AidcManager aidcManager;
-    //private BarcodeReaderManager barcodeReaderManager;
-    //private BarcodeListener barcodeListener;
-    //private BarcodeDeviceListener barcodeDeviceListener;
+    private String[] mPermissions = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION};
+    private List<String> mRequestPermissions = new ArrayList<>();
+    private static final int PERMISSION_REQUEST_CODE = 1;
 
     public HoneywellRFIDPlugin() {
         super(LOG_TAG);
@@ -44,6 +53,7 @@ public class HoneywellRFIDPlugin extends CommonPlugin {
         super.pluginInitialize();
         mrfidMgr = RfidManager.getInstance(this.cordova.getActivity());
         mrfidReaderMgr = new RFIDReaderManager();
+        requestPermissions();
         CordovaPluginLog.d(LOG_TAG, "RfidManager created");
         mListener = new RFIDListener(mrfidMgr,mrfidReaderMgr);
         mrfidMgr.addEventListener(mListener);
@@ -215,5 +225,21 @@ public class HoneywellRFIDPlugin extends CommonPlugin {
         }
 
         return super.execute(action, args, callbackContext);
+    }
+    private boolean requestPermissions() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            for (int i = 0; i < mPermissions.length; i++) {
+                if (ContextCompat.checkSelfPermission(this.cordova.getActivity(), mPermissions[i]) != PackageManager.PERMISSION_GRANTED) {
+                    mRequestPermissions.add(mPermissions[i]);
+                }
+            }
+
+            if (mRequestPermissions.size() > 0) {
+                ActivityCompat.requestPermissions(this.cordova.getActivity(), mPermissions, PERMISSION_REQUEST_CODE);
+                return false;
+            }
+        }
+
+        return true;
     }
 }
